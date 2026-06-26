@@ -1,8 +1,27 @@
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import AnalyzeCard from "./components/AnalyzeCard";
+import EmptyState from "./components/EmptyState";
+import Footer from "./components/Footer";
+import Features from "./components/Features";
+import BackgroundGlow from "./components/BackgroundGlow";
+
 function App() {
   return (
-    <div>
-      <h1>AI Code Review Agent</h1>
-    </div>
+    <>
+  <BackgroundGlow />
+
+  <Navbar />
+
+  <main className="max-w-7xl mx-auto px-6">
+    <Hero />
+    <Features />
+    <AnalyzeCard />
+    <EmptyState />
+  </main>
+
+  <Footer />
+</>
   );
 }
 
