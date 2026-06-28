@@ -1,27 +1,78 @@
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import AnalyzeCard from "./components/AnalyzeCard";
-import EmptyState from "./components/EmptyState";
+import ReviewResult from "./components/ReviewResult";
 import Footer from "./components/Footer";
-import Features from "./components/Features";
 import BackgroundGlow from "./components/BackgroundGlow";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "";
+
 function App() {
+  const [review, setReview] = useState(null);
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
+
+  const analyzePullRequest = async (prUrl) => {
+    setStatus("loading");
+    setError("");
+    setReview(null);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pr_url: prUrl,
+          prUrl,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to analyze this pull request right now.");
+      }
+
+      const data = await response.json();
+
+      setReview(data);
+      setStatus("success");
+    } catch (err) {
+      setStatus("error");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to analyze this pull request right now."
+      );
+    }
+  };
+
   return (
-    <>
-  <BackgroundGlow />
+    <div className="min-h-screen bg-[#050816] text-white">
+      <BackgroundGlow />
 
-  <Navbar />
+      <Navbar />
 
-  <main className="max-w-7xl mx-auto px-6">
-    <Hero />
-    <Features />
-    <AnalyzeCard />
-    <EmptyState />
-  </main>
+      <main className="relative mx-auto w-full max-w-5xl px-6">
 
-  <Footer />
-</>
+        <Hero />
+
+        <AnalyzeCard
+          onAnalyze={analyzePullRequest}
+          isLoading={status === "loading"}
+        />
+
+        <ReviewResult
+          review={review}
+          error={error}
+          isLoading={status === "loading"}
+        />
+
+      </main>
+
+      <Footer />
+    </div>
   );
 }
 

@@ -1,92 +1,89 @@
 import { useState } from "react";
-import { GitPullRequest, Sparkles } from "lucide-react";
+import { ArrowRight, GitPullRequest, Loader2 } from "lucide-react";
 
-export default function AnalyzeCard() {
+export default function AnalyzeCard({ isLoading, onAnalyze }) {
   const [prUrl, setPrUrl] = useState("");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const url = prUrl.trim();
+
+    if (!url || isLoading) return;
+
+    onAnalyze(url);
+  };
+
   return (
-    <section className="max-w-5xl mx-auto px-6 mt-16">
-
-      <div
-        className="
-          rounded-3xl
-          border
-          border-purple-500/40
-          bg-white/5
-          backdrop-blur-xl
-          p-8
-          shadow-2xl
-          shadow-purple-500/10
-        "
+    <section className="-mt-4 pb-16">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto w-full max-w-2xl"
       >
+        <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-3 shadow-2xl backdrop-blur-xl">
 
-        <div className="flex items-center gap-4 mb-6">
+          <div className="flex items-center gap-3 rounded-2xl border border-white/5 bg-[#050816]/80 px-5">
 
-          <div className="w-14 h-14 rounded-2xl bg-purple-600/20 flex items-center justify-center">
-            <GitPullRequest className="text-purple-400" size={30}/>
+            <GitPullRequest
+              className="h-5 w-5 text-slate-500"
+            />
+
+            <input
+              type="url"
+              placeholder="Paste your GitHub Pull Request URL..."
+              value={prUrl}
+              onChange={(e) => setPrUrl(e.target.value)}
+              className="
+                h-16
+                flex-1
+                bg-transparent
+                text-white
+                outline-none
+                placeholder:text-slate-500
+              "
+            />
+
           </div>
 
-          <div>
-            <h2 className="text-3xl font-bold">
-              GitHub Pull Request
-            </h2>
-
-            <p className="text-slate-400 mt-1">
-              Paste a PR URL and let AI review your code.
-            </p>
-          </div>
+          <button
+            type="submit"
+            disabled={!prUrl.trim() || isLoading}
+            className="
+              mt-3
+              flex
+              h-14
+              w-full
+              items-center
+              justify-center
+              gap-2
+              rounded-2xl
+              bg-gradient-to-r
+              from-violet-600
+              to-blue-600
+              font-semibold
+              text-white
+              transition
+              duration-200
+              hover:brightness-110
+              disabled:opacity-50
+              disabled:cursor-not-allowed
+            "
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Analyzing...
+              </>
+            ) : (
+              <>
+                Analyze Pull Request
+                <ArrowRight className="h-5 w-5" />
+              </>
+            )}
+          </button>
 
         </div>
-
-        <input
-          type="text"
-          placeholder="https://github.com/owner/repo/pull/123"
-          value={prUrl}
-          onChange={(e) => setPrUrl(e.target.value)}
-          className="
-            w-full
-            bg-slate-950/70
-            border
-            border-slate-700
-            rounded-2xl
-            px-6
-            py-5
-            text-lg
-            outline-none
-            focus:border-purple-500
-            transition
-          "
-        />
-
-        <button
-          className="
-            mt-6
-            w-full
-            rounded-2xl
-            py-5
-            text-xl
-            font-bold
-            flex
-            justify-center
-            items-center
-            gap-3
-            bg-gradient-to-r
-            from-purple-600
-            via-violet-500
-            to-blue-600
-            hover:scale-[1.02]
-            transition-all
-            duration-300
-            shadow-xl
-            shadow-blue-500/20
-          "
-        >
-          <Sparkles size={22}/>
-          Analyze Pull Request
-        </button>
-
-      </div>
-
+      </form>
     </section>
   );
 }

@@ -1,45 +1,34 @@
 export default function Hero() {
   return (
-    <section className="text-center pt-24 pb-16 px-6">
-      <h1
-        className="
-          text-5xl
-          sm:text-6xl
-          lg:text-7xl
-          xl:text-8xl
-          font-extrabold
-          leading-tight
-        "
-      >
-        AI-Powered{" "}
-        <span className="bg-gradient-to-r from-purple-500 via-violet-400 to-blue-500 bg-clip-text text-transparent">
-          Code Reviews
-        </span>
-      </h1>
+    <section className="flex flex-col items-center text-center pt-20 pb-14">
 
-      <p className="mt-8 text-slate-300 text-xl leading-8 max-w-4xl mx-auto">
-        Review GitHub Pull Requests like a senior engineer. Detect bugs,
-        security vulnerabilities, performance bottlenecks, and code smells
-        before merging.
-      </p>
-
-      <div className="flex flex-wrap justify-center gap-4 mt-10">
-        <span className="px-5 py-2 rounded-full bg-slate-800/70 border border-slate-700 text-slate-200">
-          Bug Detection
-        </span>
-
-        <span className="px-5 py-2 rounded-full bg-slate-800/70 border border-slate-700 text-slate-200">
-          Security
-        </span>
-
-        <span className="px-5 py-2 rounded-full bg-slate-800/70 border border-slate-700 text-slate-200">
-          Performance
-        </span>
-
-        <span className="px-5 py-2 rounded-full bg-slate-800/70 border border-slate-700 text-slate-200">
-          AI Suggestions
+      {/* Small Label */}
+      <div className="mb-6 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-md">
+        <span className="text-xs font-medium tracking-wide text-slate-400 uppercase">
+          AI reviews for GitHub Pull Requests
         </span>
       </div>
+
+      {/* Heading */}
+      <h1 className="max-w-4xl text-5xl font-bold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl">
+
+        <span className="block">
+          AI-Powered
+        </span>
+
+        <span className="block bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+          Code Reviews
+        </span>
+
+      </h1>
+
+      {/* Description */}
+      <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+        Paste a GitHub Pull Request and receive an AI-powered review that
+        highlights bugs, security issues, performance problems and code quality
+        improvements before you merge.
+      </p>
+
     </section>
   );
 }
